@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InboxLocal — Client Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #4F46E5;
+      --primary-light: #EEF2FF;
+      --accent: #EC4899;
+      --text: #1F2937;
+      --text-light: #6B7280;
+      --text-muted: #9CA3AF;
+      --bg: #F3F4F6;
+      --bg-white: #FFFFFF;
+      --border: #E5E7EB;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    .app { display: flex; min-height: 100vh; }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      width: 240px;
+      background: var(--text);
+      color: #fff;
+      padding: 24px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+    }
+    .sidebar .logo {
+      font-size: 20px;
+      font-weight: 800;
+      padding: 0 20px 24px;
+      border-bottom: 1px solid #374151;
+    }
+    .sidebar .logo span { color: var(--accent); }
+    .sidebar nav { padding: 16px 0; }
+    .sidebar nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      color: #D1D5DB;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .sidebar nav a:hover, .sidebar nav a.active {
+      background: #374151;
+      color: #fff;
+    }
+    .sidebar nav a.active { border-left: 3px solid var(--accent); }
+
+    /* ─── Main Content ─── */
+    .main {
+      flex: 1;
+      margin-left: 240px;
+      padding: 24px 32px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .header h1 { font-size: 24px; font-weight: 700; }
+    .header .subtitle { font-size: 14px; color: var(--text-light); margin-top: 4px; }
+    .header-right { display: flex; gap: 12px; align-items: center; }
+
+    /* ─── Summary Cards ─── */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .summary-card .label { font-size: 13px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .summary-card .value { font-size: 32px; font-weight: 800; margin-top: 4px; }
+    .summary-card .value.total { color: var(--primary); }
+    .summary-card .value.active { color: var(--success); }
+    .summary-card .value.onboarding { color: var(--warning); }
+    .summary-card .value.paused { color: var(--text-muted); }
+
+    /* ─── Filters ─── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg-white);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--text-light);
+    }
+    .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* ─── Client Table ─── */
+    .table-container {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      padding: 12px 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 14px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #F9FAFB; }
+
+    .client-name { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .client-type {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .client-type.restaurant { background: #FEF3C7; color: #92400E; }
+    .client-type.gym { background: #D1FAE5; color: #065F46; }
+    .client-type.salon { background: #EDE9FE; color: #5B21B6; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-dot.active { background: var(--success); }
+    .status-dot.onboarding { background: var(--warning); }
+    .status-dot.paused { background: var(--text-muted); }
+
+    .onboarding-stage {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+    .onboarding-stage span {
+      display: inline-block;
+      background: var(--bg);
+      padding: 1px 8px;
+      border-radius: 10px;
+    }
+
+    .sub-count { font-weight: 600; }
+    .empty-state { font-size: 12px; color: var(--text-muted); }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+    }
+    .action-btn {
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg-white);
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .action-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+    .action-btn.preview { border-color: var(--accent); color: var(--accent); }
+    .action-btn.preview:hover { background: #FDF2F8; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1024px) {
+      .summary { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 16px; }
+      .summary { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">Inbox<span>Local</span></div>
+    <nav>
+      <a href="#" class="active">📊 Dashboard</a>
+      <a href="#">👥 Clients</a>
+      <a href="#">📧 Newsletters</a>
+      <a href="#">📈 Analytics</a>
+      <a href="#">⚙️ Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="header">
+      <div>
+        <h1>Client Dashboard</h1>
+        <p class="subtitle">Manage all InboxLocal clients, track onboarding status, and view newsletter schedules.</p>
+      </div>
+      <div class="header-right">
+        <button class="filter-btn active" onclick="addClient()" style="background: var(--primary); color: #fff; border-color: var(--primary);">+ New Client</button>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary">
+      <div class="summary-card">
+        <div class="label">Total Clients</div>
+        <div class="value total" id="totalClients">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Active</div>
+        <div class="value active" id="activeClients">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Onboarding</div>
+        <div class="value onboarding" id="onboardingClients">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Paused</div>
+        <div class="value paused" id="pausedClients">0</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all" onclick="filterClients('all')">All</button>
+      <button class="filter-btn" data-filter="active" onclick="filterClients('active')">Active</button>
+      <button class="filter-btn" data-filter="onboarding" onclick="filterClients('onboarding')">Onboarding</button>
+      <button class="filter-btn" data-filter="paused" onclick="filterClients('paused')">Paused</button>
+    </div>
+
+    <!-- Client Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Status</th>
+            <th>Subscribers</th>
+            <th>Send Schedule</th>
+            <th>Last Newsletter</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="clientTableBody">
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+// ─── Load Client Data ───
+// In production: fetch('/dashboard/clients.json')
+// For now, we embed the data directly and fall back to JSON fetch
+
+let clients = [];
+
+async function loadClients() {
+  try {
+    const res = await fetch('./clients.json');
+    const data = await res.json();
+    clients = data.clients || [];
+  } catch (e) {
+    console.warn('Could not load clients.json, using empty state');
+    clients = [];
+  }
+  render();
+}
+
+// ─── Render ───
+
+function render(filter = 'all') {
+  const filtered = filter === 'all' ? clients : clients.filter(c => c.status === filter);
+
+  // Summary
+  document.getElementById('totalClients').textContent = clients.length;
+  document.getElementById('activeClients').textContent = clients.filter(c => c.status === 'active').length;
+  document.getElementById('onboardingClients').textContent = clients.filter(c => c.status === 'onboarding').length;
+  document.getElementById('pausedClients').textContent = clients.filter(c => c.status === 'paused').length;
+
+  // Table rows
+  const tbody = document.getElementById('clientTableBody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+      No clients match this filter.
+    </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(c => {
+    const typeLabel = c.type.charAt(0).toUpperCase() + c.type.slice(1);
+    const stageLabels = {
+      'welcome-sent': 'Welcome email sent',
+      'email-2-sent': 'Content requested',
+      'assets-received': 'Assets received',
+      'newsletter-drafted': 'Newsletter drafted',
+      'awaiting-approval': 'Awaiting approval',
+      'complete': 'Complete',
+    };
+    const stage = stageLabels[c.onboardingStage] || c.onboardingStage;
+
+    const lastNewsletter = c.lastNewsletterDate
+      ? new Date(c.lastNewsletterDate).toLocaleDateString()
+      : '<span class="empty-state">—</span>';
+
+    const typeIcons = { restaurant: '🍕', gym: '💪', salon: '✂️' };
+    const icon = typeIcons[c.type] || '🏪';
+
+    return `
+    <tr data-client-id="${c.id}">
+      <td>
+        <div class="client-name">
+          ${icon} ${c.name}
+          <span class="client-type ${c.type}">${typeLabel}</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">${c.location}</div>
+      </td>
+      <td>
+        <span class="status-badge">
+          <span class="status-dot ${c.status}"></span>
+          ${c.status.charAt(0).toUpperCase() + c.status.slice(1)}
+        </span>
+        ${c.status === 'onboarding' ? `<div class="onboarding-stage"><span>${stage}</span></div>` : ''}
+      </td>
+      <td class="sub-count">${c.subscriberCount.toLocaleString()}</td>
+      <td>
+        <div>${c.weeklySendDay}</div>
+        <div style="font-size: 12px; color: var(--text-muted);">${c.weeklySendTime}</div>
+      </td>
+      <td>${lastNewsletter}</td>
+      <td>
+        <div class="actions">
+          <a href="#" class="action-btn" onclick="viewClient('${c.id}')">View</a>
+          <a href="#" class="action-btn preview" onclick="editClient('${c.id}')">Edit</a>
+          <a href="#" class="action-btn" onclick="previewNewsletter('${c.id}')">📧 Preview</a>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── Filter ───
+
+function filterClients(filter) {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+  render(filter);
+}
+
+// ─── Action Placeholders ───
+
+function viewClient(id) {
+  const client = clients.find(c => c.id === id);
+  if (!client) return;
+  alert(`📋 ${client.name}\nStatus: ${client.status}\nType: ${client.type}\nSubscribers: ${client.subscriberCount}\nSend Day: ${client.weeklySendDay} at ${client.weeklySendTime}\n\nContact: ${client.email}\nPhone: ${client.phone}\n${client.notes ? '\nNotes: ' + client.notes : ''}`);
+}
+
+function editClient(id) {
+  const client = clients.find(c => c.id === id);
+  if (!client) return;
+  alert(`Opening editor for ${client.name}...\n\nIn production: This would open the client settings panel.\nTo edit: update dashboard/clients.json directly.`);
+}
+
+function previewNewsletter(id) {
+  const client = clients.find(c => c.id === id);
+  if (!client) return;
+  alert(`📧 Opening newsletter preview for ${client.name}...\n\nIn production: This would render a preview of their latest newsletter.`);
+}
+
+function addClient() {
+  alert(`➕ New Client\n\nIn production: This would open a form to add a new client.\nFor now, add to dashboard/clients.json manually.`);
+}
+
+// ─── Init ───
+loadClients();
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<mjml>
+  <mj-head>
+    <mj-title>{{subject}}</mj-title>
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, sans-serif" />
+      <mj-text font-size="16px" color="#333333" line-height="1.7" />
+      <mj-heading font-family="Inter, Arial, sans-serif" font-weight="700" />
+      <mj-button background-color="#EC4899" color="#ffffff" border-radius="6px" font-weight="600" />
+    </mj-attributes>
+    <mj-style>
+      .brand-header { text-align: center; }
+      .timeline-item { padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+      .emoji-bullet { font-size: 18px; }
+      .p-s { font-size: 13px; color: #888888; font-style: italic; }
+      .accent-bg { background-color: #FDF2F8; border-radius: 8px; padding: 16px; }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#f4f4f4">
+    <!-- InboxLocal HEADER -->
+    <mj-section background-color="#4F46E5" padding="24px 0">
+      <mj-column>
+        <mj-text font-size="28px" color="#ffffff" align="center" font-weight="800" letter-spacing="-0.5px">
+          Inbox<span style="color: #EC4899;">Local</span>
+        </mj-text>
+        <mj-text font-size="14px" color="#C7D2FE" align="center" padding-top="4px">
+          Done-For-You Newsletters
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- EMAIL CONTENT -->
+    <mj-section background-color="#ffffff" padding="40px 30px">
+      <mj-column>
+
+        <!-- Greeting -->
+        <mj-text font-size="24px" font-weight="700" color="#1F2937" padding-bottom="5px">
+          {{greeting}}
+        </mj-text>
+
+        <!-- Salutation -->
+        <mj-text font-size="16px" color="#4B5563" padding-bottom="20px">
+          Hi {{client_name}},
+        </mj-text>
+
+        <!-- Body content (inserted as rendered HTML) -->
+        <mj-text font-size="16px" color="#4B5563">
+          {{body_html}}
+        </mj-text>
+
+        <!-- Timeline (optional section for Email 1) -->
+        {{#if show_timeline}}
+        <mj-divider border-width="1px" border-color="#E5E7EB" padding="20px 0" />
+        <mj-text font-size="16px" font-weight="700" color="#4F46E5" padding-bottom="15px">
+          ━━━ Your Onboarding Timeline ━━━
+        </mj-text>
+        <mj-text font-size="15px" color="#4B5563">
+          {{timeline_html}}
+        </mj-text>
+        <mj-divider border-width="1px" border-color="#E5E7EB" padding="20px 0" />
+        {{/if}}
+
+        <!-- Checklist (optional section for Email 2) -->
+        {{#if show_checklist}}
+        <mj-divider border-width="1px" border-color="#E5E7EB" padding="20px 0" />
+        <mj-text font-size="16px" font-weight="700" color="#4F46E5" padding-bottom="15px">
+          ━━━ What We Need From You ━━━
+        </mj-text>
+        <mj-text font-size="15px" color="#4B5563">
+          {{checklist_html}}
+        </mj-text>
+        <mj-divider border-width="1px" border-color="#E5E7EB" padding="20px 0" />
+        {{/if}}
+
+        <!-- Preview section (optional for Email 3) -->
+        {{#if show_preview}}
+        <mj-divider border-width="1px" border-color="#E5E7EB" padding="20px 0" />
+        <mj-text font-size="16px" font-weight="700" color="#4F46E5" padding-bottom="15px">
+          ━━━ Your Newsletter Preview ━━━
+        </mj-text>
+        <mj-text font-size="15px" color="#4B5563">
+          {{preview_html}}
+        </mj-text>
+        <mj-divider border-width="1px" border-color="#E5E7EB" padding="20px 0" />
+        {{/if}}
+
+        <!-- CTA Button -->
+        {{#if cta_text}}
+        <mj-button href="{{cta_url}}" background-color="#EC4899" padding="20px 0">
+          {{cta_text}}
+        </mj-button>
+        {{/if}}
+
+        <!-- P.S. -->
+        {{#if ps_text}}
+        <mj-text css-class="p-s" padding-top="20px">
+          P.S. — {{ps_text}}
+        </mj-text>
+        {{/if}}
+
+      </mj-column>
+    </mj-section>
+
+    <!-- CLOSING -->
+    <mj-section background-color="#ffffff" padding="0 30px 30px">
+      <mj-column>
+        <mj-text font-size="16px" color="#4B5563" padding-bottom="5px">
+          Talk soon,
+        </mj-text>
+        <mj-text font-size="16px" color="#1F2937" font-weight="600">
+          The InboxLocal Team
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- FOOTER -->
+    <mj-section background-color="#1F2937" padding="30px 20px">
+      <mj-column>
+        <mj-text font-size="14px" color="#9CA3AF" align="center">
+          InboxLocal — hello@inboxlocal.co<br/>
+          123 Business Lane, Austin, TX 78701
+        </mj-text>
+        <mj-text font-size="12px" color="#6B7280" align="center" padding-top="10px">
+          <a href="{{unsubscribe_url}}" style="color: #6B7280;">Unsubscribe</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

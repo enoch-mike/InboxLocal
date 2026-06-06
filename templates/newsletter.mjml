@@ -1,0 +1,138 @@
+<mjml>
+  <mj-head>
+    <mj-title>{{newsletter_title}}</mj-title>
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, sans-serif" />
+      <mj-text font-size="16px" color="#333333" line-height="1.6" />
+      <mj-heading font-family="Inter, Arial, sans-serif" font-weight="700" />
+      <mj-button background-color="{{primary_color}}" color="#ffffff" border-radius="6px" font-weight="600" />
+    </mj-attributes>
+    <mj-style>
+      .header-logo { text-align: center; padding: 20px 0; }
+      .footer-text { font-size: 12px; color: #888888; text-align: center; }
+      .social-link { text-decoration: none; }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#f4f4f4">
+
+    <!-- HEADER -->
+    <mj-section background-color="{{primary_color}}" padding="20px 0">
+      <mj-column>
+        <mj-image src="{{logo_url}}" alt="{{client_name}}" width="200px" align="center" />
+      </mj-column>
+    </mj-section>
+
+    <!-- HERO -->
+    <mj-section background-color="{{primary_color}}" padding="0">
+      <mj-column>
+        <mj-text font-size="28px" color="#ffffff" align="center" font-weight="700" padding="30px 20px 10px">
+          {{headline}}
+        </mj-text>
+        <mj-text font-size="16px" color="#ffffff" align="center" padding="0 20px 30px">
+          {{subheadline}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- MAIN CONTENT -->
+    <mj-section background-color="#ffffff" padding="30px 20px">
+      <mj-column>
+        <mj-text font-size="18px" font-weight="600" color="#333333" padding-bottom="15px">
+          {{content_title_1}}
+        </mj-text>
+        <mj-text font-size="16px" color="#555555" padding-bottom="25px">
+          {{content_body_1}}
+        </mj-text>
+
+        {{#if content_title_2}}
+        <mj-divider border-width="1px" border-color="#e0e0e0" padding="10px 0" />
+        <mj-text font-size="18px" font-weight="600" color="#333333" padding-bottom="15px" padding-top="15px">
+          {{content_title_2}}
+        </mj-text>
+        <mj-text font-size="16px" color="#555555" padding-bottom="25px">
+          {{content_body_2}}
+        </mj-text>
+        {{/if}}
+
+        {{#if content_title_3}}
+        <mj-divider border-width="1px" border-color="#e0e0e0" padding="10px 0" />
+        <mj-text font-size="18px" font-weight="600" color="#333333" padding-bottom="15px" padding-top="15px">
+          {{content_title_3}}
+        </mj-text>
+        <mj-text font-size="16px" color="#555555" padding-bottom="25px">
+          {{content_body_3}}
+        </mj-text>
+        {{/if}}
+      </mj-column>
+    </mj-section>
+
+    <!-- PROMOTIONAL OFFER -->
+    {{#if promo_title}}
+    <mj-section background-color="{{accent_color}}" padding="30px 20px" border-radius="8px">
+      <mj-column>
+        <mj-text font-size="22px" color="#ffffff" align="center" font-weight="700" padding-bottom="10px">
+          ⭐ {{promo_title}}
+        </mj-text>
+        <mj-text font-size="16px" color="#ffffff" align="center" padding-bottom="20px">
+          {{promo_description}}
+        </mj-text>
+        {{#if promo_code}}
+        <mj-text font-size="24px" color="#ffffff" align="center" font-weight="700" padding="10px" background-color="rgba(0,0,0,0.15)" border-radius="4px">
+          Use code: {{promo_code}}
+        </mj-text>
+        {{/if}}
+        {{#if promo_url}}
+        <mj-button href="{{promo_url}}" background-color="#ffffff" color="{{accent_color}}" font-weight="700" padding-top="20px">
+          {{promo_cta}}
+        </mj-button>
+        {{/if}}
+      </mj-column>
+    </mj-section>
+    {{/if}}
+
+    <!-- EVENTS / NEW PRODUCTS -->
+    {{#if event_title}}
+    <mj-section background-color="#ffffff" padding="30px 20px">
+      <mj-column>
+        <mj-text font-size="20px" font-weight="700" color="#333333" padding-bottom="15px">
+          📅 {{event_title}}
+        </mj-text>
+        <mj-text font-size="16px" color="#555555" padding-bottom="10px">
+          {{event_description}}
+        </mj-text>
+        {{#if event_date}}
+        <mj-text font-size="14px" color="#888888" padding-bottom="10px">
+          📆 {{event_date}}
+        </mj-text>
+        {{/if}}
+        {{#if event_url}}
+        <mj-button href="{{event_url}}" background-color="{{primary_color}}" padding-top="10px">
+          Learn More
+        </mj-button>
+        {{/if}}
+      </mj-column>
+    </mj-section>
+    {{/if}}
+
+    <!-- FOOTER -->
+    <mj-section background-color="#333333" padding="30px 20px">
+      <mj-column>
+        <mj-text font-size="14px" color="#cccccc" align="center">
+          {{client_name}}<br/>
+          {{client_address}}
+        </mj-text>
+        <mj-social padding="15px 0">
+          {{#each social_links}}
+          <mj-social-element name="{{this.name}}" href="{{this.url}}" background-color="#555555" />
+          {{/each}}
+        </mj-social>
+        <mj-text css-class="footer-text" padding-top="15px">
+          You're receiving this because you're a valued customer of {{client_name}}.<br/>
+          <a href="{{unsubscribe_url}}" style="color: #888888; text-decoration: underline;">Unsubscribe</a> at any time.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

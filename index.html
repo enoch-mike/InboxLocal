@@ -151,18 +151,30 @@
       border-radius: var(--radius); padding: 40px;
       text-align: center; position: relative;
     }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      align-items: start;
+    }
+    .pricing-card {
+      background: #fff; border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 32px;
+      text-align: center; position: relative;
+    }
+    .pricing-card.featured { border-color: var(--primary); }
     .pricing-card .badge {
       position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
       background: var(--primary); color: #fff;
-      font-size: 13px; font-weight: 600; padding: 4px 16px; border-radius: 20px;
+      font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px;
     }
-    .pricing-card .price { font-size: 48px; font-weight: 800; color: var(--primary); }
-    .pricing-card .price span { font-size: 18px; font-weight: 400; color: var(--text-light); }
-    .pricing-card .description { font-size: 16px; color: var(--text-light); margin: 16px 0 24px; }
-    .pricing-card ul { list-style: none; text-align: left; margin-bottom: 32px; }
-    .pricing-card ul li { padding: 8px 0; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+    .pricing-card .tier-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .pricing-card .price { font-size: 42px; font-weight: 800; color: var(--primary); }
+    .pricing-card .price span { font-size: 16px; font-weight: 400; color: var(--text-light); }
+    .pricing-card .description { font-size: 14px; color: var(--text-light); margin: 12px 0 20px; }
+    .pricing-card ul { list-style: none; text-align: left; margin-bottom: 24px; }
+    .pricing-card ul li { padding: 6px 0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
     .pricing-card ul li::before { content: "✓"; color: var(--primary); font-weight: 700; }
-    .pricing-card .upsell { font-size: 14px; color: var(--text-light); margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .pricing-card .upsell { font-size: 13px; color: var(--text-light); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+    @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
     .cta-section {
       padding: 80px 0;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -296,25 +308,57 @@
   <section id="pricing" class="pricing">
     <div class="container">
       <h2 class="section-title">Simple, Transparent Pricing</h2>
-      <p class="section-subtitle">One flat monthly fee. No surprises, no hidden costs.</p>
-      <div class="pricing-card">
-        <div class="badge">Most Popular</div>
-        <div class="price">$500 <span>/month</span></div>
-        <p class="description">Everything you need to grow your business with email.</p>
-        <ul>
-          <li>Weekly newsletter writing & design</li>
-          <li>Custom branded templates</li>
-          <li>List management & hygiene</li>
-          <li>Detailed performance analytics</li>
-          <li>Unlimited edits & revisions</li>
-          <li>Dedicated account manager</li>
-        </ul>
-        <a href="#contact" class="btn btn-accent" style="width: 100%; text-align: center;">Get Started</a>
-        <div class="upsell">
-          <strong>Optional upgrades:</strong><br/>
-          📱 SMS messaging — $200/mo<br/>
-          🎨 Premium design — $200/mo
+      <p class="section-subtitle">Done-for-you newsletters at a flat monthly rate. No contracts, no surprises.</p>
+      <div class="pricing-grid">
+
+        <div class="pricing-card">
+          <div class="tier-name" style="color: var(--text);">Starter</div>
+          <div class="price">$199 <span>/month</span></div>
+          <p class="description">Perfect for testing the waters.</p>
+          <ul>
+            <li>2 emails per month</li>
+            <li>Professional copywriting</li>
+            <li>Mobile-optimized templates</li>
+            <li>We handle sending</li>
+            <li>Monthly performance report</li>
+            <li>No contracts — cancel anytime</li>
+          </ul>
+          <a href="#contact" class="btn" style="width: 100%; text-align: center; background: var(--border); color: var(--text);">Get Started</a>
+          <div class="upsell"><em>Cheaper than hiring a freelancer for one email</em></div>
         </div>
+
+        <div class="pricing-card featured">
+          <div class="badge">Best Value</div>
+          <div class="tier-name" style="color: var(--primary);">Growth</div>
+          <div class="price">$499 <span>/month</span></div>
+          <p class="description">Our most popular plan.</p>
+          <ul>
+            <li>4 emails per month (weekly)</li>
+            <li>Custom branded design</li>
+            <li>Full content strategy &amp; calendar</li>
+            <li>Weekly performance tracking</li>
+            <li>Priority support</li>
+            <li>No contracts — cancel anytime</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary" style="width: 100%; text-align: center;">Get Started</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="tier-name" style="color: var(--text);">Premium</div>
+          <div class="price">$799 <span>/month</span></div>
+          <p class="description">Maximum results, minimum effort.</p>
+          <ul>
+            <li>Everything in Growth</li>
+            <li>SMS blasts included ($200 value)</li>
+            <li>Monthly strategy call</li>
+            <li>Dedicated account manager</li>
+            <li>Unlimited revisions</li>
+            <li>No contracts — cancel anytime</li>
+          </ul>
+          <a href="#contact" class="btn" style="width: 100%; text-align: center; background: var(--border); color: var(--text);">Get Started</a>
+          <div class="upsell">📱 SMS + 🎨 Premium design included</div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -323,7 +367,7 @@
     <div class="container">
       <h2>Ready to turn customers into regulars?</h2>
       <p>Join dozens of local businesses already growing with InboxLocal. First newsletter is on us.</p>
-      <a href="mailto:hello@inboxlocal.co" class="btn btn-accent">Contact Us → hello@inboxlocal.co</a>
+      <a href="mailto:hello@inboxlocal.net" class="btn btn-accent">Contact Us → hello@inboxlocal.net</a>
     </div>
   </section>
 

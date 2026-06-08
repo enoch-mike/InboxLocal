@@ -6,376 +6,803 @@
   <title>InboxLocal — Done-For-You Newsletters for Local Businesses</title>
   <meta name="description" content="We write, design, and send weekly newsletters for restaurants, gyms, and salons. Turn casual customers into repeat ones — without lifting a finger." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --primary: #4F46E5;
       --primary-dark: #3730A3;
+      --primary-light: #EEF2FF;
       --accent: #EC4899;
-      --text: #1F2937;
+      --accent-light: #FDF2F8;
+      --text: #111827;
+      --text-body: #374151;
       --text-light: #6B7280;
+      --text-muted: #9CA3AF;
       --bg: #FFFFFF;
       --bg-alt: #F9FAFB;
+      --bg-card: #FFFFFF;
       --border: #E5E7EB;
+      --border-light: #F3F4F6;
       --radius: 12px;
-      --max-w: 1100px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 20px 40px -8px rgba(79,70,229,0.12);
+      --max-w: 1140px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.7;
       background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+    /* ─── Animations ─── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes countUp { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+    .animate-on-scroll-delay-1 { transition-delay: 0.1s; }
+    .animate-on-scroll-delay-2 { transition-delay: 0.2s; }
+    .animate-on-scroll-delay-3 { transition-delay: 0.3s; }
+    .animate-on-scroll-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── Navigation ─── */
     nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; position: sticky; top: 0;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border-light);
     }
-    .logo { font-size: 24px; font-weight: 800; color: var(--primary); }
+    .logo { font-size: 26px; font-weight: 900; color: var(--primary); letter-spacing: -0.5px; }
     .logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 15px; }
-    .nav-links a:hover { color: var(--primary); }
-    .btn {
-      display: inline-block;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 15px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-body); font-weight: 500; font-size: 15px;
+      transition: var(--transition); position: relative;
     }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 2px; background: var(--primary); transform: scaleX(0);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .btn {
+      display: inline-block; padding: 14px 32px; border-radius: 10px;
+      font-weight: 600; font-size: 15px; text-decoration: none; cursor: pointer;
+      transition: var(--transition); border: none; letter-spacing: -0.01em;
+      position: relative; overflow: hidden;
+    }
+    .btn::after {
+      content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15);
+      transform: translateX(-100%); transition: transform 0.4s;
+    }
+    .btn:hover::after { transform: translateX(0); }
     .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
     .btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
-    .btn-secondary:hover { background: var(--primary); color: #fff; }
+    .btn-secondary:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
     .btn-accent { background: var(--accent); color: #fff; }
-    .btn-accent:hover { transform: translateY(-1px); opacity: 0.9; }
+    .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -8px rgba(236,72,153,0.3); }
+
+    /* ─── Hero ─── */
     .hero {
-      padding: 80px 0 60px;
-      background: linear-gradient(135deg, #EEF2FF 0%, #FDF2F8 100%);
+      padding: 100px 0 80px;
+      background: linear-gradient(135deg, #EEF2FF 0%, #FDF2F8 50%, #EEF2FF 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(79,70,229,0.06) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 50%, rgba(236,72,153,0.06) 0%, transparent 50%);
     }
     .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+      position: relative; z-index: 1;
     }
     .hero h1 {
-      font-size: 48px;
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
+      font-size: 52px; font-weight: 900; line-height: 1.1;
+      margin-bottom: 20px; letter-spacing: -0.03em;
     }
-    .hero h1 span.underline {
-      background: linear-gradient(transparent 60%, #FBCFE8 60%);
-      padding: 0 4px;
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .hero p {
-      font-size: 18px;
-      color: var(--text-light);
-      margin-bottom: 32px;
-      max-width: 480px;
-    }
+    .hero p { font-size: 19px; color: var(--text-body); margin-bottom: 36px; max-width: 500px; line-height: 1.7; }
     .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
     .hero-visual {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 40px;
-      box-shadow: 0 20px 60px rgba(79,70,229,0.1);
-      border: 1px solid var(--border);
+      background: #fff; border-radius: var(--radius-lg);
+      padding: 36px; box-shadow: var(--shadow-lg); border: 1px solid rgba(229,231,235,0.5);
+      transition: var(--transition);
     }
-    .hero-visual h3 { font-size: 16px; color: var(--text-light); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .hero-visual:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -12px rgba(79,70,229,0.15); }
+    .hero-visual h3 { font-size: 15px; color: var(--text-light); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
     .email-preview {
-      background: var(--bg-alt);
-      border-radius: 8px;
-      padding: 20px;
-      border: 1px solid var(--border);
+      background: var(--bg-alt); border-radius: 10px; padding: 24px;
+      border: 1px solid var(--border); font-size: 14px; line-height: 1.6;
     }
-    .email-preview .from { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
-    .email-preview .subject { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
-    .email-preview .body { font-size: 14px; color: var(--text-light); }
-    .email-preview .body .promo { background: var(--accent); color: #fff; padding: 12px; border-radius: 6px; margin-top: 12px; text-align: center; font-weight: 600; }
-    .trusted {
-      padding: 40px 0;
-      text-align: center;
-      background: var(--bg-alt);
+    .email-preview .from { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+    .email-preview .subject { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+    .email-preview .body { color: var(--text-body); }
+    .email-preview .body .promo {
+      background: linear-gradient(135deg, var(--accent), #E11D48); color: #fff;
+      padding: 14px; border-radius: 8px; margin-top: 14px;
+      text-align: center; font-weight: 700; font-size: 15px;
     }
-    .trusted p { font-size: 14px; color: var(--text-light); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-    .trusted-logos { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
-    .trusted-logos span { font-size: 20px; font-weight: 700; color: #9CA3AF; }
-    .how-it-works { padding: 80px 0; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-light); color: var(--primary);
+      padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* ─── Trusted By ─── */
+    .trusted { padding: 48px 0; text-align: center; background: var(--bg); }
+    .trusted p { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+    .trusted-logos { display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; }
+    .trusted-logos span { font-size: 18px; font-weight: 700; color: #B0B7C3; letter-spacing: 0.3px; }
+
+    /* ─── How It Works ─── */
+    .how-it-works { padding: 100px 0; background: var(--bg-alt); }
     .section-title {
-      text-align: center;
-      font-size: 36px;
-      font-weight: 800;
-      margin-bottom: 16px;
+      text-align: center; font-size: 40px; font-weight: 900;
+      margin-bottom: 16px; letter-spacing: -0.02em; line-height: 1.2;
     }
     .section-subtitle {
-      text-align: center;
-      font-size: 18px;
-      color: var(--text-light);
-      max-width: 600px;
-      margin: 0 auto 48px;
+      text-align: center; font-size: 18px; color: var(--text-body);
+      max-width: 600px; margin: 0 auto 56px; line-height: 1.7;
     }
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-    .step { text-align: center; padding: 32px 20px; }
+    .step {
+      text-align: center; padding: 40px 28px; background: var(--bg-card);
+      border-radius: var(--radius); border: 1px solid var(--border);
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .step:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary); }
     .step-number {
-      width: 48px; height: 48px;
-      background: var(--primary); color: #fff;
-      border-radius: 50%;
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--primary), #6366F1);
+      color: #fff; border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 20px;
-      margin: 0 auto 16px;
+      font-weight: 800; font-size: 22px; margin: 0 auto 20px;
     }
     .step h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-    .step p { font-size: 15px; color: var(--text-light); }
-    .features { padding: 80px 0; background: var(--bg-alt); }
-    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-    .feature { background: #fff; padding: 32px; border-radius: var(--radius); border: 1px solid var(--border); }
-    .feature-icon { font-size: 32px; margin-bottom: 12px; }
-    .feature h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .feature p { font-size: 14px; color: var(--text-light); }
-    .pricing { padding: 80px 0; }
+    .step p { font-size: 15px; color: var(--text-body); line-height: 1.7; }
+
+    /* ─── Newsletter Examples ─── */
+    .newsletter-examples { padding: 100px 0; background: var(--bg); }
+    .example-tabs {
+      display: flex; justify-content: center; gap: 12px; margin-bottom: 48px;
+    }
+    .example-tab {
+      padding: 12px 28px; border-radius: 50px; border: 2px solid var(--border);
+      background: var(--bg); font-size: 15px; font-weight: 600; cursor: pointer;
+      transition: var(--transition); color: var(--text-light);
+    }
+    .example-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .example-tab.active {
+      background: var(--primary); border-color: var(--primary); color: #fff;
+      box-shadow: 0 8px 20px -6px rgba(79,70,229,0.3);
+    }
+    .example-content { display: none; }
+    .example-content.active { display: block; animation: fadeIn 0.5s ease; }
+    .example-card {
+      background: var(--bg-alt); border-radius: var(--radius);
+      padding: 40px; border: 1px solid var(--border);
+      max-width: 500px; margin: 0 auto; transition: var(--transition);
+    }
+    .example-card:hover { box-shadow: var(--shadow); }
+    .example-card .business-name { font-size: 14px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .example-card .email-subject { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .example-card .email-preheader { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+    .example-card .mockup {
+      background: #fff; border-radius: 10px; padding: 24px;
+      border: 1px solid var(--border); font-size: 14px; line-height: 1.6;
+    }
+    .example-card .mockup .hero-img {
+      background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+      height: 120px; border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;
+    }
+    .example-card .mockup .item-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .example-card .mockup .item-desc { color: var(--text-body); margin-bottom: 12px; font-size: 14px; }
+    .example-card .mockup .cta-btn-mock {
+      display: inline-block; background: var(--primary); color: #fff;
+      padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .example-card .mockup .bullets { color: var(--text-body); font-size: 14px; line-height: 1.8; }
+    .example-card .results-badge {
+      display: inline-flex; gap: 16px; margin-top: 20px;
+      padding: 12px 20px; background: var(--accent-light);
+      border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--accent);
+      flex-wrap: wrap;
+    }
+    .example-card .results-badge span { display: flex; align-items: center; gap: 4px; }
+
+    /* ─── Features ─── */
+    .features { padding: 100px 0; background: var(--bg-alt); }
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .feature {
+      background: var(--bg-card); padding: 36px; border-radius: var(--radius);
+      border: 1px solid var(--border); transition: var(--transition);
+    }
+    .feature:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .feature-icon { font-size: 36px; margin-bottom: 16px; }
+    .feature h3 { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+    .feature p { font-size: 15px; color: var(--text-body); line-height: 1.7; }
+
+    /* ─── Testimonials ─── */
+    .testimonials { padding: 100px 0; background: var(--bg); }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .testimonial-card {
+      background: var(--bg-card); padding: 36px; border-radius: var(--radius);
+      border: 1px solid var(--border); transition: var(--transition);
+      display: flex; flex-direction: column;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .testimonial-card .stars { font-size: 20px; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial-card blockquote {
+      font-size: 15px; color: var(--text-body); line-height: 1.8;
+      font-style: italic; flex: 1; margin-bottom: 20px;
+      quotes: "\201C""\201D""\2018""\2019";
+    }
+    .testimonial-card blockquote::before {
+      content: open-quote; font-size: 48px; line-height: 0.5;
+      color: var(--primary); opacity: 0.15; display: block; margin-bottom: 8px;
+    }
+    .testimonial-card .attribution { border-top: 1px solid var(--border-light); padding-top: 16px; }
+    .testimonial-card .attribution .name { font-weight: 700; font-size: 15px; }
+    .testimonial-card .attribution .role { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .testimonial-card .result-badge {
+      margin-top: 16px; padding: 10px 16px; background: var(--primary-light);
+      border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--primary);
+    }
+
+    /* ─── Results / Stats ─── */
+    .results { padding: 80px 0; background: var(--bg-alt); }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .stat-card {
+      text-align: center; padding: 32px 20px;
+      border-right: 1px solid var(--border); position: relative;
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-card .stat-number {
+      font-size: 52px; font-weight: 900; color: var(--primary);
+      line-height: 1; letter-spacing: -0.03em; margin-bottom: 8px;
+    }
+    .stat-card .stat-number .suffix { font-size: 24px; font-weight: 700; }
+    .stat-card .stat-label { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .stat-card .stat-compare { font-size: 13px; color: var(--text-muted); }
+    .stat-card .stat-compare strong { color: var(--accent); font-weight: 600; }
+    .results-footnote {
+      text-align: center; font-size: 13px; color: var(--text-muted);
+      margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border);
+    }
+
+    /* ─── Pricing ─── */
+    .pricing { padding: 100px 0; background: var(--bg); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1000px; margin: 0 auto; }
     .pricing-card {
-      max-width: 400px; margin: 0 auto;
-      background: #fff; border: 2px solid var(--primary);
-      border-radius: var(--radius); padding: 40px;
-      text-align: center; position: relative;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px; text-align: center;
+      transition: var(--transition); position: relative;
     }
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-      align-items: start;
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .pricing-card.featured {
+      border: 2px solid var(--primary); transform: scale(1.05);
+      box-shadow: var(--shadow-lg);
     }
-    .pricing-card {
-      background: #fff; border: 2px solid var(--border);
-      border-radius: var(--radius); padding: 32px;
-      text-align: center; position: relative;
-    }
-    .pricing-card.featured { border-color: var(--primary); }
+    .pricing-card.featured:hover { transform: scale(1.05) translateY(-4px); }
     .pricing-card .badge {
       position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: var(--primary); color: #fff;
-      font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px;
+      background: var(--primary); color: #fff; font-size: 13px; font-weight: 600;
+      padding: 4px 20px; border-radius: 50px;
     }
-    .pricing-card .tier-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-    .pricing-card .price { font-size: 42px; font-weight: 800; color: var(--primary); }
-    .pricing-card .price span { font-size: 16px; font-weight: 400; color: var(--text-light); }
-    .pricing-card .description { font-size: 14px; color: var(--text-light); margin: 12px 0 20px; }
-    .pricing-card ul { list-style: none; text-align: left; margin-bottom: 24px; }
-    .pricing-card ul li { padding: 6px 0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .pricing-card .plan-name { font-size: 16px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .pricing-card .price { font-size: 48px; font-weight: 900; color: var(--primary); }
+    .pricing-card .price span { font-size: 18px; font-weight: 500; color: var(--text-muted); }
+    .pricing-card .description { font-size: 15px; color: var(--text-body); margin: 16px 0 24px; line-height: 1.6; }
+    .pricing-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
+    .pricing-card ul li { padding: 8px 0; font-size: 15px; display: flex; align-items: center; gap: 10px; color: var(--text-body); }
     .pricing-card ul li::before { content: "✓"; color: var(--primary); font-weight: 700; }
-    .pricing-card .upsell { font-size: 13px; color: var(--text-light); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-    @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+    .pricing-card .btn { width: 100%; text-align: center; }
+
+    /* ─── CTA ─── */
     .cta-section {
-      padding: 80px 0;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      text-align: center; color: #fff;
+      padding: 100px 0;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary), #6366F1);
+      text-align: center; color: #fff; position: relative; overflow: hidden;
     }
-    .cta-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
-    .cta-section p { font-size: 18px; opacity: 0.9; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
-    .cta-section .btn { background: #fff; color: var(--primary); }
-    .cta-section .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-    footer { padding: 40px 0; text-align: center; color: var(--text-light); font-size: 14px; border-top: 1px solid var(--border); }
+    .cta-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(236,72,153,0.1) 0%, transparent 50%);
+    }
+    .cta-section * { position: relative; z-index: 1; }
+    .cta-section h2 { font-size: 40px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.02em; }
+    .cta-section p { font-size: 18px; opacity: 0.9; margin-bottom: 36px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .cta-section .btn { background: #fff; color: var(--primary); font-size: 16px; padding: 16px 36px; }
+    .cta-section .btn:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -8px rgba(0,0,0,0.2); }
+
+    /* ─── Footer ─── */
+    footer { padding: 48px 0; text-align: center; color: var(--text-muted); font-size: 14px; border-top: 1px solid var(--border); background: var(--bg); }
+    footer .logo { margin-bottom: 12px; display: block; }
+
+    /* ─── Mobile ─── */
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid .stat-card:nth-child(2) { border-right: none; }
+      .stats-grid .stat-card:nth-child(3),
+      .stats-grid .stat-card:nth-child(4) { border-right: none; border-top: 1px solid var(--border); padding-top: 32px; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .pricing-card.featured { transform: none; }
+      .pricing-card.featured:hover { transform: translateY(-4px); }
+    }
     @media (max-width: 768px) {
       .hero-grid { grid-template-columns: 1fr; gap: 40px; }
       .hero h1 { font-size: 36px; }
       .steps { grid-template-columns: 1fr; }
       .features-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .stats-grid .stat-card { border-right: none; border-bottom: 1px solid var(--border); padding: 24px 0; }
+      .stats-grid .stat-card:last-child { border-bottom: none; }
+      .nav-links a:not(.btn) { display: none; }
+      .section-title { font-size: 32px; }
+      .example-tabs { flex-direction: column; align-items: center; }
+      .pricing-grid { max-width: 100%; }
     }
   </style>
 </head>
 <body>
-  <nav class="container">
-    <div class="logo">Inbox<span>Local</span></div>
-    <div class="nav-links">
-      <a href="#how-it-works">How It Works</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#contact" class="btn btn-primary">Get Started</a>
-    </div>
-  </nav>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <h1>Turn casual customers into <span class="underline">repeat regulars</span> with a weekly newsletter they'll love.</h1>
-        <p>We write, design, and send beautifully crafted newsletters for local businesses. You focus on running your business — we handle the rest.</p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary">Get Started →</a>
-          <a href="#how-it-works" class="btn btn-secondary">See How It Works</a>
+<!-- ─── NAV ─── -->
+<nav class="container">
+  <div class="logo">Inbox<span>Local</span></div>
+  <div class="nav-links">
+    <a href="#how-it-works">How It Works</a>
+    <a href="#examples">Examples</a>
+    <a href="#features">Features</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact" class="btn btn-primary">Get Started</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="animate-on-scroll visible">
+      <div class="hero-badge">🌟 Done-for-you newsletter service</div>
+      <h1>Turn casual customers into <span class="gradient-text">repeat regulars</span> with one email a week.</h1>
+      <p>We write, design, and send beautifully crafted newsletters for restaurants, gyms, and salons. You focus on running your business — we handle the rest.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get Started →</a>
+        <a href="#examples" class="btn btn-secondary">See Examples</a>
+      </div>
+    </div>
+    <div class="hero-visual animate-on-scroll animate-on-scroll-delay-2 visible">
+      <h3>📬 This Week's Newsletter</h3>
+      <div class="email-preview">
+        <div class="from">From: Joe's Pizza → To: 1,240 subscribers</div>
+        <div class="subject">🍕 New Spicy Honey Pepperoni + Weekend Special!</div>
+        <div class="body">
+          Hey pizza lovers, we've got a brand new <strong>Spicy Honey Pepperoni</strong> slice — spicy, sweet, and absolutely irresistible.
+          <div class="promo">🎉 15% OFF your next order — use code WEEKEND15</div>
         </div>
       </div>
-      <div class="hero-visual">
-        <h3>📬 This Week's Newsletter Preview</h3>
-        <div class="email-preview">
-          <div class="from">From: Joe's Pizza  →  To: 1,240 subscribers</div>
-          <div class="subject">🍕 New slice alert + weekend special!</div>
-          <div class="body">
-            Hey pizza lovers, we've got a brand new <strong>Spicy Honey Pepperoni</strong> slice and it's already a fan favorite...
-            <div class="promo">🎉 15% OFF your next order — use code WEEKEND15</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRUSTED BY ─── -->
+<section class="trusted">
+  <div class="container">
+    <p>Trusted by local businesses across the country</p>
+    <div class="trusted-logos">
+      <span>🍕 Joe's Pizza</span>
+      <span>💪 Iron Gym</span>
+      <span>✂️ Style Studio</span>
+      <span>☕ Brew & Bean</span>
+      <span>🧘 Zen Yoga</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section id="how-it-works" class="how-it-works">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">How It Works</h2>
+    <p class="section-subtitle animate-on-scroll animate-on-scroll-delay-1">We do everything. You just review and approve. That's it.</p>
+    <div class="steps">
+      <div class="step animate-on-scroll animate-on-scroll-delay-2">
+        <div class="step-number">1</div>
+        <h3>We Learn Your Business</h3>
+        <p>Tell us about your brand, voice, and upcoming promotions. We'll create a custom content strategy in 24 hours.</p>
+      </div>
+      <div class="step animate-on-scroll animate-on-scroll-delay-3">
+        <div class="step-number">2</div>
+        <h3>We Write & Design</h3>
+        <p>Our team crafts a beautiful, on-brand newsletter featuring your offers, events, and updates — no effort needed from you.</p>
+      </div>
+      <div class="step animate-on-scroll animate-on-scroll-delay-4">
+        <div class="step-number">3</div>
+        <h3>You Approve, We Send</h3>
+        <p>Review a preview, give a quick thumbs up, and we send it to your entire list. Track results in your dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NEWSLETTER EXAMPLES ─── -->
+<section id="examples" class="newsletter-examples">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">See What Your First Newsletter Will Look Like</h2>
+    <p class="section-subtitle animate-on-scroll animate-on-scroll-delay-1">Real newsletters we've created for local businesses. Pick your industry — this is what your customers will see.</p>
+
+    <div class="example-tabs animate-on-scroll animate-on-scroll-delay-2">
+      <button class="example-tab active" onclick="switchExample('restaurant', this)">🍕 Restaurants</button>
+      <button class="example-tab" onclick="switchExample('gym', this)">💪 Gyms & Fitness</button>
+      <button class="example-tab" onclick="switchExample('salon', this)">✂️ Salons & Spas</button>
+    </div>
+
+    <!-- Restaurant Example -->
+    <div id="ex-restaurant" class="example-content active">
+      <div class="example-card animate-on-scroll visible">
+        <div class="business-name">Lucca's Italian Kitchen</div>
+        <div class="email-subject">Chef Marco's new spring pasta 🍝</div>
+        <div class="email-preheader">Made with asparagus from Oak Hill Farm — 20 plates available tonight</div>
+        <div class="mockup">
+          <div class="hero-img">📸 [Spring Asparagus Pasta Dish — Photo]</div>
+          <div class="item-title">SPRING ASPARAGUS PAPPARDELLE</div>
+          <div class="item-desc">Fresh pasta, local asparagus, lemon ricotta, pine nuts</div>
+          <div class="cta-btn-mock">Reserve a Table</div>
+          <div class="bullets">
+            📅 Trivia Night Tue 7PM<br/>
+            🥂 Free bruschetta with entree
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="trusted">
-    <div class="container">
-      <p>Trusted by local businesses across the country</p>
-      <div class="trusted-logos">
-        <span>🍕 Joe's Pizza</span>
-        <span>💪 Iron Gym</span>
-        <span>✂️ Style Studio</span>
-        <span>☕ Brew & Bean</span>
-        <span>🧘 Zen Yoga</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="how-it-works" class="how-it-works">
-    <div class="container">
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">We do everything. You just review and approve. That's it.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>We Learn Your Business</h3>
-          <p>Tell us about your business, brand voice, and upcoming promotions. We'll create a custom content strategy.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>We Write & Design</h3>
-          <p>Our team crafts a beautiful, on-brand newsletter featuring your offers, events, and updates.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>You Approve, We Send</h3>
-          <p>Review a preview, give a quick thumbs up, and we send it to your entire list. Track results in your dashboard.</p>
+        <div class="results-badge">
+          <span>📊 31% open rate</span>
+          <span>🖱️ 4.2% click rate</span>
+          <span>💰 $1,800 revenue in first month</span>
         </div>
       </div>
     </div>
-  </section>
 
-  <section id="features" class="features">
-    <div class="container">
-      <h2 class="section-title">Everything Included</h2>
-      <p class="section-subtitle">A complete email marketing program — no hidden fees, no setup costs.</p>
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon">📝</div>
-          <h3>Professional Copywriting</h3>
-          <p>Engaging, brand-aligned content written by experts who understand local businesses.</p>
+    <!-- Gym Example -->
+    <div id="ex-gym" class="example-content">
+      <div class="example-card animate-on-scroll visible">
+        <div class="business-name">Iron Fit Gym</div>
+        <div class="email-subject">Meet Sarah — she crushed her 90-day goal 💪</div>
+        <div class="email-preheader">"I never thought I'd deadlift 200lbs. Then I joined Iron Fit."</div>
+        <div class="mockup">
+          <div class="hero-img">📸 [Member Sarah at deadlift — Photo]</div>
+          <div class="item-title">MEMBER SPOTLIGHT: SARAH</div>
+          <div class="item-desc">"I never thought I'd deadlift 200lbs."</div>
+          <div class="cta-btn-mock">Book a Free Trial</div>
+          <div class="bullets">
+            💡 Form Tip: Drive through your heels<br/>
+            📅 Team Deadlift Challenge Fri 6PM
+          </div>
         </div>
-        <div class="feature">
-          <div class="feature-icon">🎨</div>
-          <h3>Custom Design</h3>
-          <p>Beautiful, mobile-responsive email templates that match your brand perfectly.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📊</div>
-          <h3>Detailed Analytics</h3>
-          <p>Open rates, click-throughs, and subscriber growth — know exactly what's working.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">⏰</div>
-          <h3>Weekly Consistency</h3>
-          <p>Never miss a send. Your newsletter goes out like clockwork every single week.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📋</div>
-          <h3>List Management</h3>
-          <p>We handle imports, unsubscribes, and list hygiene so you don't have to.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">💬</div>
-          <h3>SMS Add-On Available</h3>
-          <p>Reach customers on their phone too. Text message promotions for just $200/mo extra.</p>
+        <div class="results-badge">
+          <span>📊 28% open rate</span>
+          <span>🖱️ 5.1% click rate</span>
+          <span>📈 30% referral signups</span>
         </div>
       </div>
     </div>
-  </section>
 
-  <section id="pricing" class="pricing">
-    <div class="container">
-      <h2 class="section-title">Simple, Transparent Pricing</h2>
-      <p class="section-subtitle">Done-for-you newsletters at a flat monthly rate. No contracts, no surprises.</p>
-      <div class="pricing-grid">
-
-        <div class="pricing-card">
-          <div class="tier-name" style="color: var(--text);">Starter</div>
-          <div class="price">$199 <span>/month</span></div>
-          <p class="description">Perfect for testing the waters.</p>
-          <ul>
-            <li>2 emails per month</li>
-            <li>Professional copywriting</li>
-            <li>Mobile-optimized templates</li>
-            <li>We handle sending</li>
-            <li>Monthly performance report</li>
-            <li>No contracts — cancel anytime</li>
-          </ul>
-          <a href="#contact" class="btn" style="width: 100%; text-align: center; background: var(--border); color: var(--text);">Get Started</a>
-          <div class="upsell"><em>Cheaper than hiring a freelancer for one email</em></div>
+    <!-- Salon Example -->
+    <div id="ex-salon" class="example-content">
+      <div class="example-card animate-on-scroll visible">
+        <div class="business-name">Blush & Co. Salon</div>
+        <div class="email-subject">Spring balayage is here 🌸</div>
+        <div class="email-preheader">Warm honey tones that scream spring — book your color refresh</div>
+        <div class="mockup">
+          <div class="hero-img">📸 [Balayage transformation — Photo]</div>
+          <div class="item-title">SPRING BALAYAGE IS HERE</div>
+          <div class="item-desc">Warm honey tones, face-framing highlights, effortless glow</div>
+          <div class="cta-btn-mock">Book Appointment</div>
+          <div class="bullets">
+            🛍️ Staff Pick: OLAPLEX No. 6 — $28<br/>
+            ✨ 20% off gloss service with color
+          </div>
         </div>
-
-        <div class="pricing-card featured">
-          <div class="badge">Best Value</div>
-          <div class="tier-name" style="color: var(--primary);">Growth</div>
-          <div class="price">$499 <span>/month</span></div>
-          <p class="description">Our most popular plan.</p>
-          <ul>
-            <li>4 emails per month (weekly)</li>
-            <li>Custom branded design</li>
-            <li>Full content strategy &amp; calendar</li>
-            <li>Weekly performance tracking</li>
-            <li>Priority support</li>
-            <li>No contracts — cancel anytime</li>
-          </ul>
-          <a href="#contact" class="btn btn-primary" style="width: 100%; text-align: center;">Get Started</a>
+        <div class="results-badge">
+          <span>📊 34% open rate</span>
+          <span>🖱️ 6.3% click rate</span>
+          <span>📅 22% booking increase</span>
         </div>
-
-        <div class="pricing-card">
-          <div class="tier-name" style="color: var(--text);">Premium</div>
-          <div class="price">$799 <span>/month</span></div>
-          <p class="description">Maximum results, minimum effort.</p>
-          <ul>
-            <li>Everything in Growth</li>
-            <li>SMS blasts included ($200 value)</li>
-            <li>Monthly strategy call</li>
-            <li>Dedicated account manager</li>
-            <li>Unlimited revisions</li>
-            <li>No contracts — cancel anytime</li>
-          </ul>
-          <a href="#contact" class="btn" style="width: 100%; text-align: center; background: var(--border); color: var(--text);">Get Started</a>
-          <div class="upsell">📱 SMS + 🎨 Premium design included</div>
-        </div>
-
       </div>
     </div>
-  </section>
 
-  <section id="contact" class="cta-section">
-    <div class="container">
-      <h2>Ready to turn customers into regulars?</h2>
-      <p>Join dozens of local businesses already growing with InboxLocal. First newsletter is on us.</p>
-      <a href="mailto:hello@inboxlocal.net" class="btn btn-accent">Contact Us → hello@inboxlocal.net</a>
+    <div class="animate-on-scroll" style="text-align:center; margin-top:40px;">
+      <a href="#contact" class="btn btn-accent">See Your Industry's Template →</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <div class="container">
-      <div class="logo" style="margin-bottom: 12px;">Inbox<span>Local</span></div>
-      <p>&copy; 2025 InboxLocal. All rights reserved. • Done-for-you newsletters for local businesses.</p>
+<!-- ─── FEATURES ─── -->
+<section id="features" class="features">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">Everything Included</h2>
+    <p class="section-subtitle animate-on-scroll animate-on-scroll-delay-1">A complete email marketing program — no hidden fees, no setup costs.</p>
+    <div class="features-grid">
+      <div class="feature animate-on-scroll animate-on-scroll-delay-1">
+        <div class="feature-icon">📝</div>
+        <h3>Professional Copywriting</h3>
+        <p>Engaging, brand-aligned content written by experts who understand local businesses. Your voice, our words.</p>
+      </div>
+      <div class="feature animate-on-scroll animate-on-scroll-delay-2">
+        <div class="feature-icon">🎨</div>
+        <h3>Custom Design</h3>
+        <p>Beautiful, mobile-responsive email templates that match your brand perfectly. Opens beautifully on any device.</p>
+      </div>
+      <div class="feature animate-on-scroll animate-on-scroll-delay-1">
+        <div class="feature-icon">📊</div>
+        <h3>Detailed Analytics</h3>
+        <p>Open rates, click-throughs, and subscriber growth — know exactly what's working and what's not.</p>
+      </div>
+      <div class="feature animate-on-scroll animate-on-scroll-delay-2">
+        <div class="feature-icon">⏰</div>
+        <h3>Weekly Consistency</h3>
+        <p>Never miss a send. Your newsletter goes out like clockwork every single week — automatically.</p>
+      </div>
+      <div class="feature animate-on-scroll animate-on-scroll-delay-3">
+        <div class="feature-icon">📋</div>
+        <h3>List Management</h3>
+        <p>We handle imports, unsubscribes, and list hygiene so you don't have to. Clean list = better deliverability.</p>
+      </div>
+      <div class="feature animate-on-scroll animate-on-scroll-delay-4">
+        <div class="feature-icon">💬</div>
+        <h3>SMS Add-On Available</h3>
+        <p>Reach customers on their phone too. Text message promotions for just $200/mo extra — perfect for flash sales.</p>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section id="testimonials" class="testimonials">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">What Our Clients Say</h2>
+    <p class="section-subtitle animate-on-scroll animate-on-scroll-delay-1">Real business owners. Real results. Real words.</p>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card animate-on-scroll animate-on-scroll-delay-2">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <blockquote>
+          Before InboxLocal, I was spending $2,000 a month on ads that brought people in once — then never saw them again. Now I send one email a week and my regulars are booking tables before the food even hits the menu.
+        </blockquote>
+        <div class="attribution">
+          <div class="name">Marco Rossi</div>
+          <div class="role">Owner/Chef, Lucca's Italian Kitchen, Oakville, TX</div>
+        </div>
+        <div class="result-badge">📊 31% open rate · 4.2% click rate · 3.6x ROI</div>
+      </div>
+
+      <div class="testimonial-card animate-on-scroll animate-on-scroll-delay-3">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <blockquote>
+          We tried managing our own email list for two years. It was inconsistent, stressful, and we never knew if it was working. InboxLocal took it off our plate completely. Our members now actually look forward to Wednesday emails.
+        </blockquote>
+        <div class="attribution">
+          <div class="name">Jenna Martinez</div>
+          <div class="role">Owner, Iron Fit Gym, Austin, TX</div>
+        </div>
+        <div class="result-badge">📊 28% open rate · 5.1% click rate · +30% class bookings</div>
+      </div>
+
+      <div class="testimonial-card animate-on-scroll animate-on-scroll-delay-4">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <blockquote>
+          Our clients love seeing new styles and service spotlights in their inbox. The emails are so beautiful that clients save them to show friends. We've had a 22% increase in booking rate since we started with InboxLocal.
+        </blockquote>
+        <div class="attribution">
+          <div class="name">Sophia Chen</div>
+          <div class="role">Owner/Stylist, Blush & Co. Salon, Austin, TX</div>
+        </div>
+        <div class="result-badge">📊 34% open rate · 6.3% click rate · 22% booking increase</div>
+      </div>
+
+    </div>
+    <div class="animate-on-scroll" style="text-align:center; margin-top:40px;">
+      <a href="#contact" class="btn btn-primary">Join These Business Owners →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESULTS / STATS ─── -->
+<section id="results" class="results">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">The Numbers Speak for Themselves</h2>
+    <p class="section-subtitle animate-on-scroll animate-on-scroll-delay-1">Backed by data from 100+ local business campaigns.</p>
+    <div class="stats-grid animate-on-scroll animate-on-scroll-delay-2">
+      <div class="stat-card">
+        <div class="stat-number" data-target="31">0<span class="suffix">%</span></div>
+        <div class="stat-label">Avg Open Rate</div>
+        <div class="stat-compare">vs <strong>24%</strong> industry avg</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="4.2">0<span class="suffix">%</span></div>
+        <div class="stat-label">Avg Click Rate</div>
+        <div class="stat-compare">vs <strong>3.7%</strong> industry avg</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="68">0<span class="suffix">%</span></div>
+        <div class="stat-label">Mobile Opens</div>
+        <div class="stat-compare">of all newsletter opens</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color: var(--accent);">3.6<span class="suffix">x</span></div>
+        <div class="stat-label">Avg ROI</div>
+        <div class="stat-compare">on <strong>$500/mo</strong> investment</div>
+      </div>
+    </div>
+    <div class="results-footnote animate-on-scroll">*Based on aggregate data from InboxLocal campaigns across restaurant, gym, and salon verticals. Individual results may vary.</div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section id="pricing" class="pricing">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">Simple, Transparent Pricing</h2>
+    <p class="section-subtitle animate-on-scroll animate-on-scroll-delay-1">One flat monthly fee. No surprises, no hidden costs. Start anytime, cancel anytime.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card animate-on-scroll animate-on-scroll-delay-2">
+        <div class="plan-name">Starter</div>
+        <div class="price">$199 <span>/mo</span></div>
+        <p class="description">Perfect for dipping your toes in.</p>
+        <ul>
+          <li>2 emails per month</li>
+          <li>Professional copywriting</li>
+          <li>Mobile-optimized templates</li>
+          <li>Monthly performance report</li>
+          <li>No contracts</li>
+        </ul>
+        <a href="#contact" class="btn btn-secondary">Get Started</a>
+      </div>
+
+      <div class="pricing-card featured animate-on-scroll animate-on-scroll-delay-3">
+        <div class="badge">Most Popular</div>
+        <div class="plan-name">Growth</div>
+        <div class="price">$500 <span>/mo</span></div>
+        <p class="description">Everything you need to grow your business.</p>
+        <ul>
+          <li>Weekly newsletters (4x/month)</li>
+          <li>Custom branded design</li>
+          <li>Full content strategy & calendar</li>
+          <li>Weekly performance tracking</li>
+          <li>Unlimited revisions</li>
+          <li>Dedicated account manager</li>
+          <li style="color: var(--primary); font-weight: 600;">⭐ Best value</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Get Started</a>
+      </div>
+
+      <div class="pricing-card animate-on-scroll animate-on-scroll-delay-4">
+        <div class="plan-name">Premium</div>
+        <div class="price">$799 <span>/mo</span></div>
+        <p class="description">Maximum results for established businesses.</p>
+        <ul>
+          <li>Everything in Growth</li>
+          <li>SMS blasts included ($200 value)</li>
+          <li>Monthly strategy call</li>
+          <li>Dedicated account manager</li>
+          <li>Unlimited revisions</li>
+        </ul>
+        <a href="#contact" class="btn btn-secondary">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section id="contact" class="cta-section">
+  <div class="container">
+    <h2 class="animate-on-scroll">Ready to turn customers into regulars?</h2>
+    <p class="animate-on-scroll animate-on-scroll-delay-1">Join dozens of local businesses already growing with InboxLocal. First newsletter is on us — no commitment required.</p>
+    <a href="mailto:hello@inboxlocal.co" class="btn btn-accent animate-on-scroll animate-on-scroll-delay-2">Get Your Free First Newsletter → hello@inboxlocal.co</a>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="logo" style="margin-bottom: 12px;">Inbox<span>Local</span></div>
+    <p>&copy; 2025 InboxLocal. All rights reserved. • Done-for-you newsletters for local businesses.</p>
+  </div>
+</footer>
+
+<script>
+// ─── Example Tab Switching ───
+function switchExample(type, btn) {
+  document.querySelectorAll('.example-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.example-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('ex-' + type).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── Scroll Animations ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.animate-on-scroll:not(.visible)').forEach(el => observer.observe(el));
+});
+
+// ─── Stat Counter Animation ───
+function animateCounters() {
+  const stats = document.querySelectorAll('.stat-number[data-target]');
+  stats.forEach(stat => {
+    const target = parseFloat(stat.dataset.target);
+    const suffix = stat.querySelector('.suffix')?.textContent || '';
+    let current = 0;
+    const increment = target / 60;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        stat.textContent = target + suffix;
+        clearInterval(timer);
+      } else {
+        stat.textContent = Math.floor(current) + suffix;
+      }
+    }, 20);
+  });
+}
+
+// Trigger counter animation when results section is visible
+const resultsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounters();
+      resultsObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const resultsSection = document.getElementById('results');
+  if (resultsSection) resultsObserver.observe(resultsSection);
+});
+</script>
 </body>
 </html>

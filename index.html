@@ -3,8 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InboxLocal — Done-For-You Newsletters for Local Businesses</title>
-  <meta name="description" content="We write, design, and send weekly newsletters for restaurants, gyms, and salons. Turn casual customers into repeat ones — without lifting a finger." />
+  <title>InboxLocal — Done-For-You Newsletter Service for Local Businesses</title>
+  <meta name="description" content="We write, design, and send weekly newsletters for local businesses. Starting at $199/mo. Turn casual customers into repeat regulars — without lifting a finger." />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="InboxLocal — Done-For-You Newsletters for Local Businesses" />
+  <meta property="og:description" content="We write, design, and send weekly newsletters for local businesses. Starting at $199/mo. No contracts." />
+  <meta property="og:url" content="https://inboxlocal.net" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://inboxlocal.net/images/restaurant-hero.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📬</text></svg>" />
+  
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "InboxLocal",
+    "description": "Done-for-you newsletter service for local businesses.",
+    "url": "https://inboxlocal.net",
+    "telephone": "",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "100 N Royal Street",
+      "addressLocality": "Mobile",
+      "addressRegion": "AL",
+      "postalCode": "36602"
+    },
+    "offers": [
+      { "@type": "Offer", "name": "Starter", "price": "199", "priceCurrency": "USD", "description": "2 emails/month" },
+      { "@type": "Offer", "name": "Growth", "price": "499", "priceCurrency": "USD", "description": "4 emails/month weekly" },
+      { "@type": "Offer", "name": "Premium", "price": "799", "priceCurrency": "USD", "description": "Everything in Growth plus SMS" }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>

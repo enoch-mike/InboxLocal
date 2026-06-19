@@ -5,14 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InboxLocal — Done-For-You Newsletter Service for Local Businesses</title>
   <meta name="description" content="We write, design, and send weekly newsletters for local businesses. Starting at $199/mo. Turn casual customers into repeat regulars — without lifting a finger." />
+  <link rel="canonical" href="https://inboxlocal.net/" />
   
   <!-- Open Graph -->
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="InboxLocal" />
   <meta property="og:title" content="InboxLocal — Done-For-You Newsletters for Local Businesses" />
-  <meta property="og:description" content="We write, design, and send weekly newsletters for local businesses. Starting at $199/mo. No contracts." />
+  <meta property="og:description" content="We write, design, and send weekly newsletters for local businesses. Starting at $199/mo. No contracts. Turn casual customers into regulars." />
   <meta property="og:url" content="https://inboxlocal.net" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://inboxlocal.net/images/restaurant-hero.png" />
+  <meta property="og:image" content="https://inboxlocal.net/images/og-default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="InboxLocal — Done-For-You Newsletters for Local Businesses" />
+  <meta name="twitter:description" content="We write, design, and send weekly newsletters for restaurants, gyms, and salons. Starting at $199/mo." />
+  <meta name="twitter:image" content="https://inboxlocal.net/images/og-default.png" />
   
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📬</text></svg>" />
@@ -23,9 +33,12 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "InboxLocal",
-    "description": "Done-for-you newsletter service for local businesses.",
+    "description": "Done-for-you newsletter service for local businesses. We write, design, and send weekly newsletters for restaurants, gyms, and salons.",
     "url": "https://inboxlocal.net",
+    "image": "https://inboxlocal.net/images/og-default.png",
+    "priceRange": "$$",
     "telephone": "",
+    "email": "hello@inboxlocal.co",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "100 N Royal Street",
@@ -33,10 +46,17 @@
       "addressRegion": "AL",
       "postalCode": "36602"
     },
+    "areaServed": [
+      { "@type": "City", "name": "Mobile" },
+      { "@type": "State", "name": "Alabama" }
+    ],
+    "sameAs": [
+      "https://twitter.com/inboxlocal"
+    ],
     "offers": [
-      { "@type": "Offer", "name": "Starter", "price": "199", "priceCurrency": "USD", "description": "2 emails/month" },
-      { "@type": "Offer", "name": "Growth", "price": "499", "priceCurrency": "USD", "description": "4 emails/month weekly" },
-      { "@type": "Offer", "name": "Premium", "price": "799", "priceCurrency": "USD", "description": "Everything in Growth plus SMS" }
+      { "@type": "Offer", "name": "Starter", "price": "199", "priceCurrency": "USD", "description": "2 emails/month — Professional copywriting, mobile-optimized templates, monthly report" },
+      { "@type": "Offer", "name": "Growth", "price": "500", "priceCurrency": "USD", "description": "4 emails/month (weekly) — Custom branded design, content strategy, priority support" },
+      { "@type": "Offer", "name": "Premium", "price": "799", "priceCurrency": "USD", "description": "Everything in Growth plus SMS blasts, monthly strategy call, unlimited revisions" }
     ]
   }
   </script>
@@ -424,7 +444,7 @@
 
 <!-- ─── NAV ─── -->
 <nav class="container">
-  <div class="logo"><img src="images/logo-banner.png" alt="InboxLocal" style="height:48px;width:auto;vertical-align:middle;"></div>
+  <div class="logo"><img src="images/logo.svg" alt="InboxLocal" style="height:40px;width:auto;vertical-align:middle;"></div>
   <div class="nav-links">
     <a href="#how-it-works">How It Works</a>
     <a href="#examples">Examples</a>
@@ -790,7 +810,7 @@
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="container">
-    <div class="logo" style="margin-bottom: 12px;"><img src="images/logo-banner.png" alt="InboxLocal" style="height:30px;vertical-align:middle;"></div>
+    <div class="logo" style="margin-bottom: 12px;"><img src="images/logo.svg" alt="InboxLocal" style="height:32px;vertical-align:middle;"></div>
     <p>&copy; 2025 InboxLocal. All rights reserved. • Done-for-you newsletters for local businesses.</p>
   </div>
 </footer>

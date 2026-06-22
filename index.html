@@ -132,8 +132,12 @@
       z-index: 100;
       border-bottom: 1px solid var(--border-light);
     }
-    .logo { font-size: 26px; font-weight: 900; color: var(--primary); letter-spacing: -0.5px; }
-    .logo span { color: var(--accent); }
+    .logo {
+      font-size: 28px; font-weight: 900; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .nav-links { display: flex; gap: 36px; align-items: center; }
     .nav-links a {
       text-decoration: none; color: var(--text-body); font-weight: 500; font-size: 15px;
@@ -444,7 +448,7 @@
 
 <!-- ─── NAV ─── -->
 <nav class="container">
-  <div class="logo"><img src="images/logo-nav.svg" alt="InboxLocal" style="height:40px;width:auto;vertical-align:middle;"></div>
+  <div class="logo">InboxLocal</div>
   <div class="nav-links">
     <a href="#how-it-works">How It Works</a>
     <a href="#examples">Examples</a>
@@ -810,7 +814,7 @@
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="container">
-    <div class="logo" style="margin-bottom: 12px;"><img src="images/logo-nav.svg" alt="InboxLocal" style="height:36px;vertical-align:middle;"></div>
+    <div class="logo">InboxLocal</div>
     <p>&copy; 2025 InboxLocal. All rights reserved. • Done-for-you newsletters for local businesses.</p>
   </div>
 </footer>

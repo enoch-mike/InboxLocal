@@ -53,6 +53,17 @@
     .nav-links .btn{background:var(--primary);color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
     .nav-links .btn:hover{background:#4338CA;transform:translateY(-1px)}
     @media(max-width:768px){.nav-links a:not(.btn){display:none}}
+    .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:101}
+    .menu-toggle span{display:block;width:24px;height:2px;background:var(--text);margin:5px 0;transition:all .3s;border-radius:2px}
+    .menu-toggle.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .menu-toggle.active span:nth-child(2){opacity:0}
+    .menu-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    @media(max-width:768px){.menu-toggle{display:block}}
+    .mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,15,30,0.98);z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+    .mobile-menu.open{display:flex;animation:fadeIn .3s ease}
+    .mobile-menu a{color:#fff;font-size:20px;font-weight:600;text-decoration:none;transition:opacity .2s}
+    .mobile-menu a:hover{opacity:.7}
+    .mobile-menu .btn{background:var(--primary);color:#fff;padding:14px 32px;border-radius:8px;font-weight:600;font-size:18px;text-decoration:none}
 
     /* ─── HERO ─── */
     .hero{padding:100px 0 80px;position:relative;overflow:hidden}
@@ -181,8 +192,21 @@
       <a href="/blog/">Blog</a>
       <a href="#cta" class="btn">Get Started</a>
     </div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how" onclick="toggleMenu()">How It Works</a>
+  <a href="#features" onclick="toggleMenu()">Features</a>
+  <a href="#testimonials" onclick="toggleMenu()">Testimonials</a>
+  <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+  <a href="/blog/" onclick="toggleMenu()">Blog</a>
+  <a href="#cta" class="btn" onclick="toggleMenu()" style="background:var(--primary);color:#fff;padding:14px 32px;border-radius:8px;font-weight:600;font-size:18px;text-decoration:none">Get Started</a>
+</div>
 
 <!-- ─── HERO ─── -->
 <section class="hero">
@@ -343,6 +367,14 @@
 </footer>
 
 <script>
+// ─── Mobile Menu Toggle ───
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const toggle = document.querySelector('.menu-toggle');
+  menu.classList.toggle('open');
+  toggle.classList.toggle('active');
+}
+
 // ─── Scroll Reveal ───
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show') });

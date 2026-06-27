@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refer a Friend — InboxLocal Referral Program</title>
+  <meta name="description" content="Refer another local business to InboxLocal and you both get 1 month free. Unlimited referrals — the more you share, the more you save." />
+  <link rel="canonical" href="https://inboxlocal.net/refer.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="InboxLocal" />
+  <meta property="og:title" content="Refer a Friend — InboxLocal Referral Program" />
+  <meta property="og:description" content="Refer a business to InboxLocal and you both get 1 month free. Unlimited referrals." />
+  <meta property="og:url" content="https://inboxlocal.net/refer.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://inboxlocal.net/images/og-default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Refer a Friend — InboxLocal Referral Program" />
+  <meta name="twitter:description" content="Refer a business and you both get 1 month free." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📬</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#4F46E5;--primary-dark:#3730A3;--accent:#EC4899;--text:#111827;--text-body:#374151;--text-light:#6B7280;--text-muted:#94A3B8;--bg:#FFFFFF;--bg-alt:#F9FAFB;--border:#E5E7EB;--radius:12px;--max-w:720px}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text-body);line-height:1.7;-webkit-font-smoothing:antialiased}
+    .container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+
+    /* ─── NAV ─── */
+    nav{height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(10,15,30,0.92);backdrop-filter:blur(16px);z-index:100;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .logo{font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px;text-decoration:none}
+    .nav-links{display:flex;gap:32px;align-items:center}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:14px;font-weight:500;transition:color .2s}
+    .nav-links a:hover{color:#fff}
+    .nav-links .btn{background:var(--primary);color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none}
+
+    /* ─── HERO ─── */
+    .hero{padding:100px 0 80px;background:linear-gradient(135deg,#0B1120 0%,#1E1B4B 50%,#0B1120 100%);position:relative;overflow:hidden;text-align:center}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 25% 30%,rgba(79,70,229,0.12) 0%,transparent 50%),radial-gradient(circle at 75% 70%,rgba(236,72,153,0.08) 0%,transparent 50%)}
+    .hero *{position:relative;z-index:1}
+    .hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(236,72,153,0.15);color:#F9A8D4;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:24px;border:1px solid rgba(236,72,153,0.25)}
+    .hero h1{font-size:48px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-0.03em}
+    .hero h1 span{background:linear-gradient(135deg,#818CF8,#F472B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:18px;color:#94A3B8;margin-bottom:32px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7}
+    .hero .incentive{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+    .hero .incentive .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 28px;text-align:center;min-width:160px}
+    .hero .incentive .card .emoji{font-size:28px;margin-bottom:6px}
+    .hero .incentive .card .label{font-size:14px;color:#94A3B8}
+    .hero .incentive .card .value{font-size:20px;font-weight:800;color:#fff;margin-top:4px}
+    .btn{display:inline-block;padding:16px 40px;border-radius:10px;font-weight:700;font-size:16px;border:none;cursor:pointer;transition:all .3s;font-family:inherit;text-decoration:none;text-align:center}
+    .btn-accent{background:var(--accent);color:#fff}
+    .btn-accent:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(236,72,153,0.3)}
+
+    /* ─── HOW IT WORKS ─── */
+    .how{padding:80px 0;background:var(--bg-alt)}
+    .how h2{text-align:center;font-size:36px;font-weight:900;color:var(--text);margin-bottom:48px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .step{text-align:center;padding:36px 24px;background:#fff;border-radius:var(--radius);border:1px solid var(--border)}
+    .step .num{width:48px;height:48px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;margin:0 auto 16px}
+    .step h3{font-size:18px;font-weight:700;margin-bottom:8px}
+    .step p{font-size:15px;color:var(--text-light);line-height:1.6}
+
+    /* ─── FORM ─── */
+    .form-section{padding:80px 0;background:linear-gradient(135deg,#0B1120 0%,#1E1B4B 100%)}
+    .form-section h2{text-align:center;font-size:36px;font-weight:900;color:#fff;margin-bottom:8px}
+    .form-section .sub{text-align:center;color:#94A3B8;font-size:16px;margin-bottom:40px}
+    .tabs{display:flex;justify-content:center;gap:12px;margin-bottom:36px}
+    .tab-btn{padding:10px 24px;border-radius:50px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#94A3B8;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+    .tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+    .tab-btn:hover:not(.active){border-color:var(--primary);color:#fff}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .form-card{max-width:500px;margin:0 auto;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:40px;text-align:left}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;font-size:14px;font-weight:600;color:#E2E8F0;margin-bottom:6px}
+    .form-group input{width:100%;padding:12px 16px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;font-size:15px;font-family:inherit;background:rgba(255,255,255,0.06);color:#fff;transition:border-color .2s}
+    .form-group input::placeholder{color:#64748B}
+    .form-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.15)}
+    .form-group .hint{font-size:13px;color:#64748B;margin-top:4px}
+    .form-section .btn{width:100%}
+
+    /* ─── PERKS ─── */
+    .perks{padding:80px 0;background:var(--bg)}
+    .perks h2{text-align:center;font-size:36px;font-weight:900;color:var(--text);margin-bottom:48px}
+    .perks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .perk{text-align:center;padding:32px 20px;border:1px solid var(--border);border-radius:var(--radius)}
+    .perk .icon{font-size:36px;margin-bottom:12px}
+    .perk h3{font-size:18px;font-weight:700;margin-bottom:6px}
+    .perk p{font-size:14px;color:var(--text-light)}
+
+    /* ─── FOOTER ─── */
+    footer{padding:40px 0;text-align:center;color:var(--text-light);font-size:14px;border-top:1px solid var(--border)}
+    footer .logo{display:block;margin-bottom:12px;font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    @media(max-width:768px){
+      .hero h1{font-size:36px}
+      .steps,.perks-grid{grid-template-columns:1fr}
+      .hero .incentive{gap:16px}
+      .hero .incentive .card{min-width:140px}
+      .tabs{flex-direction:column;align-items:center}
+      .form-card{padding:24px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+    <a href="/" class="logo">InboxLocal</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/free-newsletter.html">Free Newsletter</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/blog/">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">🎉 Unlimited Referrals</div>
+    <h1>Refer a Friend. <span>You Both Save.</span></h1>
+    <p>Share InboxLocal with another local business. When they sign up and pay their first month, you both get <strong style="color:#fff">one month free</strong>. No limit on referrals.</p>
+    <div class="incentive">
+      <div class="card">
+        <div class="emoji">🤝</div>
+        <div class="label">You Refer</div>
+        <div class="value">A Business</div>
+      </div>
+      <div class="card">
+        <div class="emoji">🎁</div>
+        <div class="label">They Get</div>
+        <div class="value">1 Month Free</div>
+      </div>
+      <div class="card">
+        <div class="emoji">✨</div>
+        <div class="label">You Get</div>
+        <div class="value">1 Month Free</div>
+      </div>
+    </div>
+    <div style="margin-bottom:12px;font-size:15px;color:#64748B">
+      <span style="display:inline-flex;align-items:center;gap:4px;">♾️ <strong style="color:#A5B4FC;">Unlimited</strong> — refer as many businesses as you want</span>
+    </div>
+    <a href="#refer-form" class="btn btn-accent">Get Your Referral Link →</a>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="how" id="how">
+  <div class="container">
+    <h2>How the Referral Program Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Get Your Code</h3>
+        <p>Fill out the form below and we'll send you a unique referral link and code to share with other local business owners.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Share It</h3>
+        <p>Send your referral link to another restaurant, gym, or salon owner. Text it, email it, or share it on social media.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>You Both Win</h3>
+        <p>When they sign up and pay their first month, you both get one month free. Refer 12 businesses — you get a year free.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FORM ─── -->
+<section class="form-section" id="refer-form">
+  <div class="container">
+    <h2>Get Started</h2>
+    <p class="sub">Current client? Get your referral link. New business? Sign up with a referral code.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('client', this)">I'm a Current Client</button>
+      <button class="tab-btn" onclick="switchTab('referral', this)">I Was Referred</button>
+    </div>
+
+    <!-- Current Client Form -->
+    <div id="tab-client" class="tab-content active">
+      <div class="form-card">
+        <form action="mailto:hello@inboxlocal.net" method="GET" enctype="text/plain">
+          <div class="form-group">
+            <label for="client-name">Business Name</label>
+            <input type="text" id="client-name" name="business" placeholder="e.g. Joe's Pizza" required />
+          </div>
+          <div class="form-group">
+            <label for="client-email">Your Email</label>
+            <input type="email" id="client-email" name="email" placeholder="joe@joespizza.com" required />
+          </div>
+          <div class="form-group">
+            <label for="client-plan">Current Plan</label>
+            <input type="text" id="client-plan" name="plan" placeholder="e.g. Growth ($500/mo)" />
+          </div>
+          <button type="submit" class="btn btn-accent">Send Me My Referral Link →</button>
+          <p style="text-align:center;font-size:13px;color:#64748B;margin-top:16px">We'll email you your unique referral code and link within 24 hours.</p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Referred Client Form -->
+    <div id="tab-referral" class="tab-content">
+      <div class="form-card">
+        <form action="mailto:hello@inboxlocal.net" method="GET" enctype="text/plain">
+          <div class="form-group">
+            <label for="ref-name">Business Name</label>
+            <input type="text" id="ref-name" name="business" placeholder="e.g. Iron Fit Gym" required />
+          </div>
+          <div class="form-group">
+            <label for="ref-email">Your Email</label>
+            <input type="email" id="ref-email" name="email" placeholder="owner@ironfit.com" required />
+          </div>
+          <div class="form-group">
+            <label for="ref-phone">Phone Number</label>
+            <input type="tel" id="ref-phone" name="phone" placeholder="(555) 234-5678" />
+          </div>
+          <div class="form-group">
+            <label for="ref-code">Referral Code <span style="color:#F472B6;font-weight:400;">(required)</span></label>
+            <input type="text" id="ref-code" name="referral_code" placeholder="e.g. JOESP-A1B2" required />
+            <div class="hint">Enter the referral code your friend shared with you.</div>
+          </div>
+          <button type="submit" class="btn btn-accent">Sign Up With Referral →</button>
+          <p style="text-align:center;font-size:13px;color:#64748B;margin-top:16px">We'll reach out within 24 hours to get your first newsletter started.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PERKS ─── -->
+<section class="perks">
+  <div class="container">
+    <h2>Why Refer Other Businesses?</h2>
+    <div class="perks-grid">
+      <div class="perk">
+        <div class="icon">♾️</div>
+        <h3>Unlimited Referrals</h3>
+        <p>Refer as many businesses as you want. Each successful referral earns you a free month. No cap.</p>
+      </div>
+      <div class="perk">
+        <div class="icon">📈</div>
+        <h3>Grow the Community</h3>
+        <p>Help other local business owners discover the power of email newsletters. Everyone wins.</p>
+      </div>
+      <div class="perk">
+        <div class="icon">💰</div>
+        <h3>Save Big</h3>
+        <p>Refer 6 businesses and save $3,000+. Refer 12 and your entire year is covered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="logo">InboxLocal</div>
+    <p>&copy; 2025 InboxLocal. All rights reserved. • <a href="/" style="color:var(--primary);text-decoration:none;">Home</a> • <a href="/free-newsletter.html" style="color:var(--primary);text-decoration:none;">Free Newsletter</a> • <a href="/#pricing" style="color:var(--primary);text-decoration:none;">Pricing</a></p>
+  </div>
+</footer>
+
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
